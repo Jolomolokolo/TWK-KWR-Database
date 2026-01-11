@@ -3,7 +3,7 @@ import os, sys, sqlite3
 def dbCreate():
 
     if os.path.exists("twk.db"):
-        print("DB exisitiert bereits.")
+        print("DB exsits already")
         sys.exit(0)
 
     connection = sqlite3.connect("twk.db")
@@ -21,4 +21,4 @@ def dbCreate():
 
     cursor.execute(sql)
 
-    print ("DB created!")
+    print ("DB created")
