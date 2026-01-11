@@ -35,8 +35,14 @@ def db_calculate_full_points(searching_id):
             print(f"Age: {age} Years")
         else:
             print("No Birthday found")
+            age = None
 
         connection.close()
+        
+        if total != None and age != None:
+            certificate = calculate_certificate(age, total)
+            print(certificate)
+        
         print("Calculations completed")
 
     else:
@@ -55,6 +61,88 @@ def calculate_age(born):
     else:
         return today.year - born.year
 
+def calculate_certificate(age, total_points):
+    if not isinstance(total_points, float) or total_points < 0:
+        certificate = "Certificate impossible!"
+        print("Certificate is impossible - total points is impossible")
+        sys.exit(0)
+
+    match age:
+        case _ if age < 10:
+            if total_points <= 8:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 10:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 10:
+            if total_points <= 10:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 12:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 11:
+            if total_points <= 12:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 14:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 12:
+            if total_points <= 14:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 16:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 13:
+            if total_points <= 16:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 18:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 14:
+            if total_points <= 18:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 20:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 15:
+            if total_points <= 20:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 22:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 16:
+            if total_points <= 22:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 24:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case 17:
+            if total_points <= 24:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 26:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+        case _ if age >= 18:
+            if total_points <= 26:
+                certificate = "Teilnehmerurkunde"
+            elif total_points <= 28:
+                certificate = "Siegerurkunde"
+            elif total_points < 30:
+                certificate = "Ehrenurkunde"
+
+        case _:
+            print("Not valid age")
+
+    return certificate
 
 
 db_calculate_full_points(searching_id)

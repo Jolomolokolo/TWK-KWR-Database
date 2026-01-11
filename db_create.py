@@ -17,7 +17,7 @@ def dbCreate():
             "geburtstag TEXT, " \
             "p1 REAL, " \
             "p2 REAL, " \
-            "p3 REAL)"
+            "p3 REAL,)"
 
     cursor.execute(sql)
 
