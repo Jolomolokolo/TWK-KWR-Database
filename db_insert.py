@@ -3,43 +3,46 @@ from db_create import dbCreate
 
 csv_files = "Klasse-8A.csv"
 
-if os.path.exists("twk.db"):
-    print("Importing...")
-    connection = sqlite3.connect("twk.db")
-    cursor = connection.cursor()
+def dbInsert():
+    if not os.path.exists("twk.db"):
+        dbCreate()
 
-    cursor.execute("SELECT MAX(id) FROM personen")
-    result = cursor.fetchone()
-    next_id = (result[0] + 1) if result[0] is not None else 0
+    if os.path.exists("twk.db"):   # Auch alles andere sollte überprüft werden, also "and id, jahrgang, name, vorname, etc..."
+        print("Importing...")
+        connection = sqlite3.connect("twk.db")
+        cursor = connection.cursor()
 
-    with open(csv_files) as csvdatei:
-        csv_reader_object = csv.reader(csvdatei, delimiter=',')
-        
-        next(csv_reader_object)
-        
-        # Check if Person mit gleichem Namen, Vornamen und Geburtstag schon exsistiert...
+        cursor.execute("SELECT MAX(id) FROM personen")
+        result = cursor.fetchone()
+        next_id = (result[0] + 1) if result[0] is not None else 0
 
-        for row in csv_reader_object:
-            if len(row) >= 5:
-                name = row[0]
-                vorname = row[1]
-                jahrgang = int(row[2])
-                klbuchstabe = row[3]
-                geburtstag = row[4]
-                p = None
+        with open(csv_files) as csvdatei:
+            csv_reader_object = csv.reader(csvdatei, delimiter=',')
+            
+            next(csv_reader_object)
+            
+            # Check if Person mit gleichem Namen, Vornamen und Geburtstag schon exsistiert...
 
-                sql = "INSERT INTO personen VALUES(?,?,?,?,?,?,?,?,?)"
-                cursor.execute(sql, (name, vorname, next_id, jahrgang, klbuchstabe, geburtstag, p, p, p))
-                
-                print(f"Imported: {vorname} {name} (ID: {next_id})")
-                next_id = next_id + 1
-        
-        connection.commit()
+            for row in csv_reader_object:
+                if len(row) >= 5:
+                    name = row[0]
+                    vorname = row[1]
+                    jahrgang = int(row[2])
+                    klbuchstabe = row[3]
+                    geburtstag = row[4]
+                    p = None
 
-    print("Importing succesful")
-else:
+                    sql = "INSERT INTO personen VALUES(?,?,?,?,?,?,?,?,?)"
+                    cursor.execute(sql, (name, vorname, next_id, jahrgang, klbuchstabe, geburtstag, p, p, p))
+                    
+                    print(f"Imported: {vorname} {name} (ID: {next_id})")
+                    next_id = next_id + 1
+            
+            connection.commit()
 
-    # Funktion für automatisches erstellen, also Abbruch vermeiden
+        print("Importing succesful")
+    else:
+        print("DB should be here but isnt!")
+        sys.exit(0)
 
-    dbCreate()
-    sys.exit(0)
+dbInsert() # Maybe noch outsourcen
